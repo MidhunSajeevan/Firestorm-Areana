@@ -2576,5 +2576,15 @@ namespace Photon.Pun
         {
             throw new NotImplementedException();
         }
+
+        public static void Instantiate(string v, System.Numerics.Vector3 zero, System.Numerics.Quaternion identity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static void Instantiate(string v, Vector3 zero, System.Numerics.Quaternion identity)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
