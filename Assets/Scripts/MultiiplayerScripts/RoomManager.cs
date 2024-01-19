@@ -34,6 +34,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
     {
         if(scene.buildIndex == 1 )
         {
+            //if the first scene is loaded instantiate playrcontroler Manager
            PhotonNetwork.Instantiate( Path.Combine("PhotonPrefabs", "PlayerControlerManager"), UnityEngine.Vector3.zero, UnityEngine.Quaternion.identity);
         }
     }

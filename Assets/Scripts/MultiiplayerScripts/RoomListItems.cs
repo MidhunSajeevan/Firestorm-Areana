@@ -10,11 +10,13 @@ public class RoomListItems : MonoBehaviour
     public  RoomInfo roomInfo;
    public void SetUp(RoomInfo _roomInfo)
     {
+        //Display the Name of the room on the text to display in UI
         roomInfo = _roomInfo;   
         roomNameText.text = _roomInfo.Name;
     }
     public void OnClick()
     {
-            Launcher.Instance.JoinRoom(roomInfo);
+        //When clicked on the button join the room
+        Launcher.Instance.JoinRoom(roomInfo);
     }
 }

@@ -2571,20 +2571,5 @@ namespace Photon.Pun
                 }
             }
         }
-
-        public static void JoinOrCreateRoom()
-        {
-            throw new NotImplementedException();
-        }
-
-        public static void Instantiate(string v, System.Numerics.Vector3 zero, System.Numerics.Quaternion identity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public static void Instantiate(string v, Vector3 zero, System.Numerics.Quaternion identity)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

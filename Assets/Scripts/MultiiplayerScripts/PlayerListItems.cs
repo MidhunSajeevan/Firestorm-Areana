@@ -10,12 +10,14 @@ public class PlayerListItems : MonoBehaviourPunCallbacks
 
     public void SetUp(Player _player)
     {
+        //Display the player name on the text for the UI
         player = _player;
         playerUserName.text = _player.NickName;
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
+        //After the player left the room destroy the object 
         if(otherPlayer == player)
         {
             Destroy(gameObject);
@@ -23,6 +25,7 @@ public class PlayerListItems : MonoBehaviourPunCallbacks
     }
     public override void OnLeftRoom()
     {
+        //on this player left the room destroy the name of this player
         Destroy(gameObject);
     }
 }
