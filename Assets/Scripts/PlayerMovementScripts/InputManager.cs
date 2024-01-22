@@ -49,7 +49,7 @@ public class InputManager : MonoBehaviour
     public void HandleAllInputs()
     {
         HandleMovementInput();
-     //   HandleJumpingInputs();
+    
     }
     private void HandleMovementInput()
     {
@@ -63,9 +63,4 @@ public class InputManager : MonoBehaviour
         playerAnimatorManager.UpdateAnimatorValues(0f,moveAmount);
     }
 
-    //private void HandleJumpingInputs()
-    //{
-    //    jumpInput = false;
-    //    playerLocomotion.HandleJumping();
-    //}
 }

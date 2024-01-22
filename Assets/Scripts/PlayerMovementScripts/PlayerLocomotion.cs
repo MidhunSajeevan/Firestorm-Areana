@@ -5,25 +5,33 @@ using UnityEngine;
 public class PlayerLocomotion : MonoBehaviour
 {
     InputManager inputManager;
+    PlayerManager playerManager;
+    PlayerAnimatorManager animatorManager;
     Vector3 moveDirection;
     Transform cameraObject;
     Rigidbody rb;
+
+  
 
     [Range(0,10)]
     public float speed=7f;
     [Range(0, 5)]
     public float rotationSpeed = 4f;
 
-    public bool IsJumping = false;
+  
 
     private void Awake()
     {
+        animatorManager = GetComponent<PlayerAnimatorManager>();    
+        playerManager = GetComponent<PlayerManager>();
         inputManager = GetComponent<InputManager>();    
         rb = GetComponent<Rigidbody>();
         cameraObject = Camera.main.transform;
     }
     public void HandleAllMovements()
     {
+       
+        
         HandleMovement();
         HandleRotation();
     }
@@ -57,8 +65,5 @@ public class PlayerLocomotion : MonoBehaviour
         transform.rotation = playerRotation;
     }
 
-    //public void HandleJumping()
-    //{
-       
-    //}
+   
 }

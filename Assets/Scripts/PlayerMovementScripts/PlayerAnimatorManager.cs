@@ -18,4 +18,5 @@ using UnityEngine;
             animator.SetFloat(horizontal,horizontalInput,0.1f,Time.deltaTime);
             animator.SetFloat(vertical,verticalInput,0.1f, Time.deltaTime); 
         }
+      
     }
