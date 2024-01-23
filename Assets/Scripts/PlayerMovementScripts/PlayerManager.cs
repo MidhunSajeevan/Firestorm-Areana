@@ -28,6 +28,8 @@ public class PlayerManager : MonoBehaviour
     private void LateUpdate()
     {
         cameraManager.HandleAllCameraMovements();
+       playerLocomotion.isJumping = animator.GetBool("IsJumping");
+        animator.SetBool("IsGrounded", playerLocomotion.isGrounded);
    
     }
 }

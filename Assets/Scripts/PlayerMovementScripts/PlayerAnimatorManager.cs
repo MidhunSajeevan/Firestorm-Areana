@@ -18,5 +18,10 @@ using UnityEngine;
             animator.SetFloat(horizontal,horizontalInput,0.1f,Time.deltaTime);
             animator.SetFloat(vertical,verticalInput,0.1f, Time.deltaTime); 
         }
+        public void PlayTargetAnimation(string target,bool value)
+        {
+            animator.SetBool(target,value);
+        }
+
       
     }

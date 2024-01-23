@@ -24,9 +24,18 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Jumping",
+                    "name": "Shooting",
                     "type": "Button",
-                    "id": "a3dd9b45-10da-48ae-a46a-5ca27ee8b163",
+                    "id": "75bf2882-66ca-4456-9cbf-81ecfa741f1f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Aim",
+                    "type": "Button",
+                    "id": "877ea051-ce5f-41a0-9fee-87635e96c4f7",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -212,12 +221,51 @@
                 },
                 {
                     "name": "",
-                    "id": "cfb9793c-4aa1-49c3-b082-eb9856b98efc",
+                    "id": "818ca83b-6cb3-4fa0-a52e-276ae5d67427",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Shooting",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5e5c8867-896b-4528-ab5d-b0eab21bcda4",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Aim",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Player Actions",
+            "id": "9f0e0e66-47cb-49a5-bd85-e73f6bbcb8d7",
+            "actions": [
+                {
+                    "name": "Jump",
+                    "type": "Button",
+                    "id": "bd946516-26aa-4b01-83ec-13246dd13dcc",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "1fbfa168-f852-443a-ac12-ec1c77a61c8e",
                     "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Jumping",
+                    "action": "Jump",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
