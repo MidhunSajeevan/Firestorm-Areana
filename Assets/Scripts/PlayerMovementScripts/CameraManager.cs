@@ -28,10 +28,14 @@ public class CameraManager : MonoBehaviour
 
     private void Awake()
     {
-        targetTransform =  FindObjectOfType<PlayerManager>().transform;
-        inputManager = FindObjectOfType<InputManager>();
+     
         cameraTransform = Camera.main.transform;
         defaultPosition = cameraTransform.localPosition.z;
+    }
+    public void Start()
+    {
+        //targetTransform = FindObjectOfType<PlayerManager>().transform;
+        //inputManager = FindObjectOfType<InputManager>();
     }
     public void HandleAllCameraMovements()
     {
@@ -41,12 +45,16 @@ public class CameraManager : MonoBehaviour
     }
     private void FollowTarget()
     {
+        if(targetTransform == null)
+            targetTransform = FindAnyObjectByType<PlayerManager>().transform;
         Vector3 targetPostion = Vector3.SmoothDamp
             (transform.position, targetTransform.position, ref cameraFollowVelocity, cameraFollowSpeed);
         transform.position = targetPostion;
     }
     private void RotateCamera()
     {
+        if (inputManager == null)
+            inputManager = FindAnyObjectByType<InputManager>();
         Vector3 rotation;
         Quaternion targetRotation;
 

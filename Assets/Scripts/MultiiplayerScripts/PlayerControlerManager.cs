@@ -21,6 +21,6 @@ public class PlayerControlerManager : MonoBehaviour
     void CreateControler()
     {
         //Spown the player on the position with its defoult rotation
-        PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerArmature"),Vector3.zero, Quaternion.identity);
+        PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player"),Vector3.zero, Quaternion.identity);
     }
 }
