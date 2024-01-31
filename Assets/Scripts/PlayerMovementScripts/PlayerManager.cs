@@ -7,7 +7,6 @@ public class PlayerManager : MonoBehaviour
     PlayerLocomotion playerLocomotion;
     CameraManager cameraManager;
     public Animator animator;
-    public bool isInteracting;
     private PhotonView view;
     private void Awake()
     {
@@ -18,6 +17,13 @@ public class PlayerManager : MonoBehaviour
         cameraManager = FindObjectOfType<CameraManager>();
 
        
+    }
+    private void Start()
+    {
+        if(!view.IsMine)
+        {
+            Destroy(GetComponentInChildren<CameraManager>().gameObject);
+        }
     }
 
     void FixedUpdate()

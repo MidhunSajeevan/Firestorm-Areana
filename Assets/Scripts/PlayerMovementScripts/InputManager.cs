@@ -1,7 +1,3 @@
-using Photon.Pun.Demo.PunBasics;
-using Photon.Pun.Demo.SlotRacer;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class InputManager : MonoBehaviour
@@ -24,14 +20,13 @@ public class InputManager : MonoBehaviour
     float moveAmount;
 
 
-    public bool Shooting;
-    public bool Aiming;
+    public bool Shooting = false;
+    public bool Aiming= false;
     public bool Jumping;
+    public bool ReloadInput;
     private void Awake()
     {
-        playerAnimatorManager = GetComponent<PlayerAnimatorManager>();
-        playerLocomotion = GetComponent<PlayerLocomotion>();    
-        shootingController = GetComponent<ShootingController>();
+        References();
     }
 
     private void OnEnable()
@@ -53,6 +48,8 @@ public class InputManager : MonoBehaviour
 
             playerInputActions.PlayerActions.Jump.started += ctx => HandleJumpInput(true);
             playerInputActions.PlayerActions.Jump.canceled += ctx => HandleJumpInput(false);
+
+            playerInputActions.PlayerActions.Reload.started += i => HandleReloadInput();
         }
 
         playerInputActions.Enable();
@@ -82,7 +79,6 @@ public class InputManager : MonoBehaviour
     private void HandleJumpInput(bool value)
     {
             Jumping = value;
-             Debug.Log(Jumping);
             playerLocomotion.JumpingFuction.Invoke(value);
         
     }
@@ -96,9 +92,26 @@ public class InputManager : MonoBehaviour
     private void HandleShootingInput(bool value)
     {
 
-        Aiming = value;
-        playerLocomotion.ShootingFuction.Invoke(value);
-        shootingController.ShootingFunction.Invoke();
+        Shooting = value;
+        if(value)
+            shootingController.ShootingFunction.Invoke();
 
+
+        playerLocomotion.ShootingFuction.Invoke(value);
+      
+
+    }
+    private void HandleReloadInput()
+    {
+       
+        shootingController.ReloadingFunction.Invoke();
+
+    }
+
+    private void References()
+    {
+        playerAnimatorManager = GetComponent<PlayerAnimatorManager>();
+        playerLocomotion = GetComponent<PlayerLocomotion>();
+        shootingController = GetComponent<ShootingController>();
     }
 }

@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MenuManager : MonoBehaviour
 {
-   public Menu[] menus;
+    public Menu[] menus;
     public static MenuManager instance;
 
     private void Awake()

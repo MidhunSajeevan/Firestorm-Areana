@@ -18,6 +18,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     [SerializeField] GameObject PlayerListPrefab;
     [SerializeField] GameObject startButton;
 
+    int nextTeamNumber = 1;
     private void Awake()
     {
         Instance = this;    
@@ -26,11 +27,11 @@ public class Launcher : MonoBehaviourPunCallbacks
     {
         //Establish a connection between client to server 
         PhotonNetwork.ConnectUsingSettings();
-
+    
     }
+  
     public override void OnConnectedToMaster()
     {
-
         Debug.Log("Connected to Master...");
         //To join the client in the networking lobby after establishing a connection
         PhotonNetwork.JoinLobby();
@@ -39,15 +40,16 @@ public class Launcher : MonoBehaviourPunCallbacks
    
     public override void OnJoinedLobby()
     {
-        MenuManager.instance.OpenMenu("TittleMenu");
+      
+        MenuManager.instance.OpenMenu("UserNameMenu");
         Debug.Log("Joined in a Lobby");
-        //After player joined the lobby automatically add a nickname for the player
-        PhotonNetwork.NickName = "Player"+Random.Range(0,1000).ToString();
+       
     }
     public void CreateRoom()
     {
+    
         //return if there is no room name is in the field
-        if(string.IsNullOrEmpty(roomNameInputField.text))
+        if (string.IsNullOrEmpty(roomNameInputField.text))
         {
             return;
         }
@@ -61,6 +63,7 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
+        
         MenuManager.instance.OpenMenu("RoomMenu");
         ///Display the room name on the UI 
         roomNameText.text = PhotonNetwork.CurrentRoom.Name;
@@ -78,7 +81,8 @@ public class Launcher : MonoBehaviourPunCallbacks
         //Display the player names on the UI from the player array
         foreach(Player playerItem in player)
         {
-            Instantiate(PlayerListPrefab, PlayerListContent).GetComponent<PlayerListItems>().SetUp(playerItem);
+            int teamNumber = GetNextTeamNumber();
+            Instantiate(PlayerListPrefab, PlayerListContent).GetComponent<PlayerListItems>().SetUp(playerItem, teamNumber);
         }
         //Show start button for only the master client 
         startButton.SetActive(PhotonNetwork.IsMasterClient);
@@ -111,7 +115,8 @@ public class Launcher : MonoBehaviourPunCallbacks
     {
         //On Click Leave room Leave room and show loading menu
         PhotonNetwork.LeaveRoom();
-        MenuManager.instance.OpenMenu("LoadingMenu");
+        MenuManager.instance.OpenMenu("CreateRoomMenu");
+        
     }
     public override void OnLeftRoom()
     {
@@ -138,7 +143,17 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
+        int teamNumber = GetNextTeamNumber();
+
         //When player entered the room instantiate player name in the UI
-        Instantiate(PlayerListPrefab,PlayerListContent).GetComponent<PlayerListItems>().SetUp(newPlayer);
+       GameObject playerItem =  Instantiate(PlayerListPrefab,PlayerListContent);
+        playerItem.GetComponent<PlayerListItems>().SetUp(newPlayer,teamNumber);
+    }
+
+    private int GetNextTeamNumber()
+    {
+        int teamNumber = nextTeamNumber;
+        nextTeamNumber = 3 - nextTeamNumber;
+        return teamNumber;  
     }
 }

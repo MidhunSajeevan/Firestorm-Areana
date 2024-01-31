@@ -1,16 +1,25 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.Events;
-using static UnityEngine.Rendering.DebugUI;
+using Photon.Pun;
+using UnityEngine.UI;
 
 public class PlayerLocomotion : MonoBehaviour
 {
     InputManager inputManager;
     PlayerAnimatorManager animatorManager;
+    ShootingController shootingController;
+    PlayerControlerManager playercontrolerManager;
     Vector3 moveDirection;
     Transform cameraObject;
     Rigidbody rb;
+    PhotonView photonView;
+
+    [Header("Player Health")]
+    const float maxHealth = 150f;
+    public float currentHealth;
+    public GameObject PlayerHealtUI;
+    public Slider HealtBarSlider;
 
     [Header("Free Falling")]
     public Transform raycastPoint;
@@ -27,8 +36,8 @@ public class PlayerLocomotion : MonoBehaviour
     public float gravityIntensity = -15f;
 
     [Header("Aiming")]
-    public bool isAiming;
-    public bool isShooting;
+    public bool isAiming = false;
+    public bool isShooting = false;
 
     [Header("Rotation")]
     [Range(0,10)]
@@ -37,17 +46,29 @@ public class PlayerLocomotion : MonoBehaviour
     public float rotationSpeed = 4f;
     public Vector3 targetDirection = Vector3.zero;
 
+    public int playerTeam;
 
     public UnityAction<bool> AimingFuction; 
     public UnityAction<bool> ShootingFuction;
     public UnityAction<bool> JumpingFuction;
     private void Awake()
     {
+        References();
         AddListeners();
-        animatorManager = GetComponent<PlayerAnimatorManager>();    
-        inputManager = GetComponent<InputManager>();    
-        rb = GetComponent<Rigidbody>();
-        cameraObject = Camera.main.transform;
+       
+    }
+    private void Start()
+    {
+        if(!photonView.IsMine)
+        {
+          
+            Destroy(PlayerHealtUI);
+        }
+        if (photonView.Owner.CustomProperties.ContainsKey("Team"))
+        {
+            int team = (int)photonView.Owner.CustomProperties["Team"];
+            playerTeam = team;
+        }
     }
     private void AddListeners()
     {
@@ -64,7 +85,7 @@ public class PlayerLocomotion : MonoBehaviour
     }
     private void HandleMovement()
     {
-        if (isJumping || isAiming || isShooting)
+        if (isJumping || isAiming || isShooting || shootingController.isReloading)
         {
             return;
         }
@@ -81,7 +102,7 @@ public class PlayerLocomotion : MonoBehaviour
 
     private void HandleRotation()
     {
-        if (isJumping || isAiming || isShooting)
+        if (isJumping || isAiming || isShooting || shootingController.isReloading)
         {
             return;
         }
@@ -145,12 +166,53 @@ public class PlayerLocomotion : MonoBehaviour
     }
     private void HandleAiming(bool value)
     {
+        if (!photonView.IsMine)
+            return;
         isAiming = value;
         animatorManager.PlayTargetAnimation("IsAiming", value);
     } 
     private void HandleShooting(bool value)
     {
+
+        if (!photonView.IsMine)
+            return;
         isShooting = value;
         animatorManager.PlayTargetAnimation("IsShooting", value);
+    }
+    public void ApplyDamage(float damage)
+    {
+        photonView.RPC("RPC_TakeDamage", RpcTarget.All, damage);
+    }
+
+    [PunRPC]
+    void RPC_TakeDamage(float  damage)
+    {
+        if (!photonView.IsMine)
+            return;
+        currentHealth -= damage;
+        HealtBarSlider.value = currentHealth;
+        if (currentHealth < 0)
+            Die();
+        Debug.Log(currentHealth + " Health");
+        Debug.Log(damage + " Damage taken");
+    }
+    void Die()
+    {
+        playercontrolerManager.Die();
+        ScoreBoard.instance.PlayerDied(playerTeam);
+    }
+    private void References()
+    {
+        currentHealth = maxHealth;
+        cameraObject = Camera.main.transform;
+        shootingController = GetComponent<ShootingController>();
+        animatorManager = GetComponent<PlayerAnimatorManager>();
+        inputManager = GetComponent<InputManager>();
+        rb = GetComponent<Rigidbody>();
+        photonView = GetComponent<PhotonView>();
+        playercontrolerManager = PhotonView.Find((int)photonView.InstantiationData[0]).GetComponent<PlayerControlerManager>();
+        HealtBarSlider.maxValue = 150f;
+        HealtBarSlider.minValue = 0;
+        HealtBarSlider.value = currentHealth;
     }
 }

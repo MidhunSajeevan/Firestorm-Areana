@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering;
-
+using Photon.Pun;
 public class CameraManager : MonoBehaviour
 {
     Transform targetTransform;
@@ -10,6 +7,7 @@ public class CameraManager : MonoBehaviour
     private float defaultPosition;
     private Transform cameraTransform;
     public LayerMask collisonLayers;
+    PhotonView photonView;
     private float cameraCollisonRadious = 0.2f;
     private Vector3 cameraVectorPostion;
 
@@ -26,35 +24,32 @@ public class CameraManager : MonoBehaviour
     InputManager inputManager;
     private float minimumCollisonOffset=0.2f;
 
-    private void Awake()
+
+
+    private void Start()
     {
-     
-        cameraTransform = Camera.main.transform;
-        defaultPosition = cameraTransform.localPosition.z;
-    }
-    public void Start()
-    {
-        //targetTransform = FindObjectOfType<PlayerManager>().transform;
-        //inputManager = FindObjectOfType<InputManager>();
-    }
+
+        Refferences();
+     }
+  
     public void HandleAllCameraMovements()
     {
+        if (!photonView.IsMine)
+            return;
         FollowTarget();
         RotateCamera();
         HandleCameracollision();
     }
     private void FollowTarget()
     {
-        if(targetTransform == null)
-            targetTransform = FindAnyObjectByType<PlayerManager>().transform;
+     
         Vector3 targetPostion = Vector3.SmoothDamp
             (transform.position, targetTransform.position, ref cameraFollowVelocity, cameraFollowSpeed);
         transform.position = targetPostion;
     }
     private void RotateCamera()
     {
-        if (inputManager == null)
-            inputManager = FindAnyObjectByType<InputManager>();
+     
         Vector3 rotation;
         Quaternion targetRotation;
 
@@ -71,6 +66,11 @@ public class CameraManager : MonoBehaviour
         rotation.x = pivotAngle;
         targetRotation = Quaternion.Euler(rotation) ;
         cameraPivot.localRotation = targetRotation; 
+
+        if(inputManager.movementInput == Vector2.zero)
+        {
+            targetTransform.rotation = Quaternion.Euler(0, lookAngel, 0);
+        }
     }
     
     private void HandleCameracollision()
@@ -92,5 +92,14 @@ public class CameraManager : MonoBehaviour
         }
         cameraVectorPostion.z = Mathf.Lerp(cameraTransform.localPosition.z, targetPostion, 0.2f);
         cameraTransform.localPosition = cameraVectorPostion;
+    }
+    void Refferences()
+    {
+        inputManager = GetComponentInParent<InputManager>();
+        targetTransform = GetComponentInParent<PlayerManager>().transform;
+        cameraTransform = Camera.main.transform;
+        defaultPosition = cameraTransform.localPosition.z;
+        photonView = GetComponentInParent<PhotonView>();
+
     }
 }
