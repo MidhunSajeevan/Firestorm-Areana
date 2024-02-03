@@ -42,6 +42,9 @@ MonoBehaviour:
   - RPC_TakeDamage
   - RPC_Shoot
   - UpdateScores
+  - ShowWinPopUp
+  - RPC_ApplyHealth
+  - Addbullets
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Photon.Realtime;
 using UnityEngine.UI;
@@ -13,6 +11,7 @@ public class RoomListItems : MonoBehaviour
         //Display the Name of the room on the text to display in UI
         roomInfo = _roomInfo;   
         roomNameText.text = _roomInfo.Name;
+       
     }
     public void OnClick()
     {

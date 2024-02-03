@@ -21,7 +21,7 @@ public class UserNameAndTeamNameDisplaye : MonoBehaviour
         if(view.Owner.CustomProperties.ContainsKey("Team"))
         {
             int team = (int)view.Owner.CustomProperties["Team"];
-            teameText.text = team.ToString();   
+            teameText.text = "Team "+team.ToString();   
         }
     }
 

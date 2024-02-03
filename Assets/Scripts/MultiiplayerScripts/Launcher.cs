@@ -19,6 +19,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     [SerializeField] GameObject startButton;
 
     int nextTeamNumber = 1;
+
     private void Awake()
     {
         Instance = this;    
@@ -53,7 +54,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         {
             return;
         }
-        //Create a room with the name that given in the inpur field
+        //Create a room with the name that given in the input field
         PhotonNetwork.CreateRoom(roomNameInputField.text);
         MenuManager.instance.OpenMenu("LoadingMenu");
 
@@ -78,7 +79,7 @@ public class Launcher : MonoBehaviourPunCallbacks
             Destroy(transform.gameObject);
         }
 
-        //Display the player names on the UI from the player array
+        //Display the player names on the UI from the player array also display the player team numbers
         foreach(Player playerItem in player)
         {
             int teamNumber = GetNextTeamNumber();
@@ -87,6 +88,8 @@ public class Launcher : MonoBehaviourPunCallbacks
         //Show start button for only the master client 
         startButton.SetActive(PhotonNetwork.IsMasterClient);
     }
+ 
+
     public override void OnMasterClientSwitched(Player newMasterClient)
     {
         //When master client left the room assign another person as master and show the start button for that player
@@ -130,6 +133,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         //it show previous names so destroy the children
         foreach (Transform transform in roomListContent)
         {
+          
             Destroy(transform.gameObject);
         }
         //Show the list of rooms that crated 
@@ -155,5 +159,9 @@ public class Launcher : MonoBehaviourPunCallbacks
         int teamNumber = nextTeamNumber;
         nextTeamNumber = 3 - nextTeamNumber;
         return teamNumber;  
+    }
+    public void Quit()
+    {
+        Application.Quit();
     }
 }

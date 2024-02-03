@@ -10,11 +10,10 @@ public class GameManager : MonoBehaviourPunCallbacks
     GameObject[] UIObjects;
     [SerializeField]
     GameObject PouseMenu;
-    public string mainMenuSceneName = "MenuScene";  // Replace with your actual main menu scene name
-    private List<Player> playersList = new List<Player>();
+
     // Start is called before the first frame update
 
-
+   
     public void PousebuttonClicked()
     {
       
@@ -76,7 +75,6 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public void ResumeClicked()
     {
-       
         PouseMenu.SetActive(false);
         foreach (GameObject go in UIObjects)
         {

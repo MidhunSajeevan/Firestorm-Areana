@@ -16,7 +16,6 @@ public class InputManager : MonoBehaviour
 
     public float cameraInputX;
     public float cameraInputY;
-
     float moveAmount;
 
 

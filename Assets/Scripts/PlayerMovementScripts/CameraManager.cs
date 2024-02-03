@@ -18,8 +18,8 @@ public class CameraManager : MonoBehaviour
     public float pivotAngle;
 
     public float cameraCollisonOffset = 0.2f; 
-    public float cameraLookSpeed = 2f;
-    public float cameraPivotSpeed = 2f;
+    public float cameraLookSpeed = 10f;
+    public float cameraPivotSpeed = 10f;
 
     InputManager inputManager;
     private float minimumCollisonOffset=0.2f;
@@ -52,6 +52,8 @@ public class CameraManager : MonoBehaviour
      
         Vector3 rotation;
         Quaternion targetRotation;
+
+        // UnComment if it is using the Mouse as the input
 
         lookAngel = lookAngel + (inputManager.cameraInputX * cameraLookSpeed);
         pivotAngle = pivotAngle - (inputManager.cameraInputY * cameraPivotSpeed);

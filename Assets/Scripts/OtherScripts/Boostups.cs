@@ -1,19 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+
 
 public class Boostups : MonoBehaviour
 {
-    [SerializeField] Text boostup;
-    int boostups = 0;
+    PlayerLocomotion locomotion;
+    private int health = 10;
     private void OnTriggerEnter(Collider other)
     {
-        boostups++;
-        if(other != null)
+      locomotion = other.GetComponent<PlayerLocomotion>();
+        if(locomotion != null )
         {
-            boostup.text = boostups.ToString();
-            Destroy(gameObject);
+            locomotion.ApplyHealth(health);
         }
+        Destroy(gameObject);
     }
 }

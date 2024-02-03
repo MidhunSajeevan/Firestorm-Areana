@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 using Photon.Pun;
+using UnityEngine.UI;
 
 public class ShootingController : MonoBehaviour
 {
@@ -10,9 +11,10 @@ public class ShootingController : MonoBehaviour
     public float fireDamage = 15f;
     public float nextFireTime = 0f;
     Transform firePoint;
-    
+
 
     [Header("Reloading Values")]
+    public Text bulletCount;
     public int MaxAmo = 30;
     public int CurrentAmo;
     public float RelaodTime = 1.5f;
@@ -92,6 +94,7 @@ public class ShootingController : MonoBehaviour
             
                 transform.LookAt(hitPoint);
                 CurrentAmo--;
+                bulletCount.text ="30 / "+CurrentAmo.ToString();
 
                 //Extract hit information
                 //Apply damage to the player
@@ -138,11 +141,22 @@ public class ShootingController : MonoBehaviour
         }
     }
 
+    public void AddAmo(int amo)
+    {
+        photonView.RPC("Addbullets", RpcTarget.All, amo);
+    }
+    [PunRPC]
+    void Addbullets(int amo)
+    {
+        if(!photonView.IsMine) return;
+        CurrentAmo = amo;
+        FinishReloading();
+    }
     private void FinishReloading()
     {
         CurrentAmo = MaxAmo;
         isReloading = false;
-
+        bulletCount.text = "30 / " + CurrentAmo.ToString();
     }
     private void Referrences()
     {

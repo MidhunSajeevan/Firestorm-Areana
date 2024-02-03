@@ -18,7 +18,7 @@ public class PlayerListItems : MonoBehaviourPunCallbacks
         TeamText.text ="Team "+_team.ToString();
         playerUserName.text = _player.NickName;
 
-        ExitGames.Client.Photon.Hashtable customProps =     new ExitGames.Client.Photon.Hashtable();
+        ExitGames.Client.Photon.Hashtable customProps =  new ExitGames.Client.Photon.Hashtable();
         customProps["Team"] = _team;
         _player.SetCustomProperties(customProps);
     }

@@ -183,9 +183,8 @@ public class PlayerLocomotion : MonoBehaviour
     {
         photonView.RPC("RPC_TakeDamage", RpcTarget.All, damage);
     }
-
     [PunRPC]
-    void RPC_TakeDamage(float  damage)
+    void RPC_TakeDamage(float damage)
     {
         if (!photonView.IsMine)
             return;
@@ -195,6 +194,23 @@ public class PlayerLocomotion : MonoBehaviour
             Die();
         Debug.Log(currentHealth + " Health");
         Debug.Log(damage + " Damage taken");
+    }
+    public void ApplyHealth(float health)
+    {
+        photonView.RPC("RPC_ApplyHealth", RpcTarget.All, health);
+    }
+    [PunRPC]
+    void RPC_ApplyHealth(float  damage)
+    {
+        if (!photonView.IsMine)
+            return;
+        if(currentHealth < maxHealth)
+            currentHealth += damage;
+        HealtBarSlider.value = currentHealth;
+        if (currentHealth > 150)
+            return;
+        Debug.Log(currentHealth + " Health");
+
     }
     void Die()
     {
